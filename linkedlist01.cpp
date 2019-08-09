@@ -10,12 +10,37 @@ public:
 		next = NULL;
 	}
 };
+node * deletemid(node*head){
+	node*fast = head;
+	node*slow = head;
+	node*prev = NULL;
+	while(fast!=NULL && fast->next!=NULL){
+		prev = slow;
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	prev->next = slow->next;
+	return head;
+}
+ 
+node * reverseHead(node*&head){
+	if(head==NULL || head->next == NULL){
+		return head;
+	}
+
+	node * rev = reverseHead(head->next);
+	head->next->next = head;
+
+
+	head->next = NULL;
+	return rev;
+}
+
 void create(node*&head, int data) {
 	node *n = new node(data);
 	n -> next = head;
 	head = n;
 }
-
 void insertatmid(node*head, int data, int pos) {
 	if (head == NULL || pos == 1) {
 		create(head, data);
@@ -105,14 +130,17 @@ bool detectcycle(node*head) {
 	}
 	return false;
 }
+
 int main() {
 	node*head = NULL;
 	cout << "ENTER THE ELEMENTS IN circularlinkedlist " << endl;
 	insert(head);
-	circularlinkedlist(head);
+	// circularlinkedlist(head);
+	// deletemid(head);
+	node * rev = reverseHead(head);
 	cout << "ELEMENTS of circularlinkedlist is" << endl;
 
-	print(head);
+	print(rev);
 	// print1(head);
 
 }
