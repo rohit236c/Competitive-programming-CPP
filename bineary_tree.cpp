@@ -36,11 +36,26 @@ void preOrder(Tree * root) {
 	preOrder(root->left);
 	preOrder(root->right);
 }
+void inOrder(Tree * root){
+	if(root == NULL){
+		return;
+	}
+	inOrder(root->left);
+	cout<<root->data<<" ,";
+	inOrder(root->right);
+}
+void postOrder(Tree * root){
+	if(root == NULL){
+		return;
+	}
+	postOrder(root->right);
+	cout<<root->data<<" ,";
+	postOrder(root->left);
+}
 int main() {
 	Tree*root = NULL;
 	root = buildTree();
-	preOrder(root);
-
-
+	// preOrder(root);
+	inOrder(root);
 	return 0;
-}
+}	
