@@ -138,7 +138,7 @@ sumPair maxSubSum(Tree * root) {
 		p.exc = 0;
 		return p;
 	}
- 
+
 	sumPair leftSubSum = maxSubSum(root->left);
 	sumPair rightSubSum = maxSubSum(root->right);
 
@@ -147,21 +147,121 @@ sumPair maxSubSum(Tree * root) {
 
 	return p;
 }
+int sumLeaf(Tree * root) {
+	if (root == NULL) {
+		return 0;
+	}
+	if (root->left == NULL && root->right == NULL) {
+		return root->data;
+	}
+	int leftSum = sumLeaf(root->left);
+	int rightSum = sumLeaf(root->right);
+
+	return leftSum + rightSum ;
+}
+void printSibling(Tree * root) {
+	if (root == NULL) {
+		return;
+	}
+	if (root->left == NULL && root->right) {
+		cout << root->right->data << " ";
+	}
+	if (root->right == NULL && root->left) {
+		cout << root->left->data << " ";
+	}
+	printSibling(root->left);
+	printSibling(root->right);
+}
+bool sumTree(Tree * root) {
+	if (root == NULL) {
+		return true;
+	}
+	if (root->left == NULL || root->right == NULL) {
+		return false;
+	}
+
+	sumTree(root->left);
+	sumTree(root->right);
+	if (root->data != (root->left->data + root->right->data)) {
+		return false;
+	}
+
+	return true;
+}
+bool printAncestor(Tree * root, int key) {
+	if (root == NULL)
+		return false;
+	if (root->data == key)
+		return true;
+
+	if ( printAncestor(root->left, key) ||
+	        printAncestor(root->right, key) )
+	{
+		cout << root->data ;
+		return true;
+	}
+
+	return false;
+}
+class rootHD{
+public:
+	int hd;
+	Tree* node;
+};
+void verticalPrint(Tree * root) {
+	queue<rootHD>q;
+	multimap<int,Tree * >mymap;
+	if(root == NULL){
+		return;
+	}
+	int hd = 0;
+	rootHD r;
+	r.hd = 0;
+	r.node = root;
+	q.push(r);
+	mymap.insert(pair<int, Tree*>(hd, root));
+	while(!q.empty()){
+		rootHD front = q.front();
+		q.pop();
+
+		if(front.node->left!= NULL){
+			rootHD temp;
+			temp.hd = front.hd - 1;
+			temp.node = front.node->left;
+			q.push(temp);
+			mymap.insert(pair<int, Tree*>(temp.hd, front.node->left));
+			// mymap[hd-1] = front->left->data;
+		}
+		if(front.node->right!=NULL){
+			rootHD temp1;
+			temp1.hd = front.hd + 1;
+			temp1.node = front.node->right;
+			q.push(temp1);
+			mymap.insert(pair<int, Tree*>(temp1.hd, front.node->right));
+		}
+	}
+	for(auto i = mymap.begin();i!=mymap.end();++i){
+		cout<<i->second->data<<" ";
+	}
+}
+
 int main() {
 	Tree*root = NULL;
 	// root = buildTree();
 	buildLevelTree(root);
 	printByLevelQueue(root);
+	cout << endl;
+	verticalPrint(root);
 	// printByLevel(root);
 	// preOrder(root);
 	// inOrder(root);
-	cout << endl;
-	cout << "maxSubSum is = ";
-	sumPair ans = maxSubSum(root);
-	int finalAns = max(ans.inc, ans.exc);
-	cout <<finalAns<< "";
+	// printSibling(root);
+	// cout << sumTree(root);
+	// cout << "maxSubSum is = ";
+	// printAncestor(root,0);
+	// sumPair ans = maxSubSum(root);
+	// int finalAns = max(ans.inc, ans.exc);
+	// cout <<finalAns<< "";
+	// cout<<"sum = "<< sumLeaf(root);
 	return 0;
 }
-/*
-5 6 7 -1 -1 -1 8 9 -1 -1 10 -1 -1
-*/
