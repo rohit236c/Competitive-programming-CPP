@@ -96,9 +96,8 @@ void printByLevel(Tree * root) {
 	}
 	int minLevel = 0;
 	int depth = height(root);
-	for (int i = 0; i <= depth; i++) {
+	for (int i = depth; i >= 0; i--) {
 		printLevel(root, i);
-		cout << endl;
 	}
 }
 void printByLevelQueue(Tree * root) {
@@ -125,6 +124,21 @@ void printByLevelQueue(Tree * root) {
 			cout << endl;
 		}
 	}
+}
+
+void spiralPrint(Tree* root) {
+//maintain a level count 
+
+	//if odd push leftchild && then push right child
+
+	//else push rightchild && push leftchild
+}
+void reverseLevelOrder(Tree*root){
+	//reverse the level of order of printing.....
+
+	//1. first approach use dequeue...
+	//2. using recursion and for loop
+	//3. using queue + stack in this method
 }
 class sumPair {
 public:
@@ -203,15 +217,15 @@ bool printAncestor(Tree * root, int key) {
 
 	return false;
 }
-class rootHD{
+class rootHD {
 public:
 	int hd;
 	Tree* node;
 };
 void verticalPrint(Tree * root) {
 	queue<rootHD>q;
-	multimap<int,Tree * >mymap;
-	if(root == NULL){
+	multimap<int, Tree * >mymap;
+	if (root == NULL) {
 		return;
 	}
 	int hd = 0;
@@ -220,11 +234,11 @@ void verticalPrint(Tree * root) {
 	r.node = root;
 	q.push(r);
 	mymap.insert(pair<int, Tree*>(hd, root));
-	while(!q.empty()){
+	while (!q.empty()) {
 		rootHD front = q.front();
 		q.pop();
 
-		if(front.node->left!= NULL){
+		if (front.node->left != NULL) {
 			rootHD temp;
 			temp.hd = front.hd - 1;
 			temp.node = front.node->left;
@@ -232,7 +246,7 @@ void verticalPrint(Tree * root) {
 			mymap.insert(pair<int, Tree*>(temp.hd, front.node->left));
 			// mymap[hd-1] = front->left->data;
 		}
-		if(front.node->right!=NULL){
+		if (front.node->right != NULL) {
 			rootHD temp1;
 			temp1.hd = front.hd + 1;
 			temp1.node = front.node->right;
@@ -240,18 +254,71 @@ void verticalPrint(Tree * root) {
 			mymap.insert(pair<int, Tree*>(temp1.hd, front.node->right));
 		}
 	}
-	for(auto i = mymap.begin();i!=mymap.end();++i){
-		cout<<i->second->data<<" ";
+	for (auto i = mymap.begin(); i != mymap.end(); ++i) {
+		cout << i->first << " " << i->second->data << endl;
 	}
+}
+void topLevel(Tree * root) {
+	queue<rootHD>q;
+	multimap<int, Tree * >mymap;
+	if (root == NULL) {
+		return;
+	}
+	int hd = 0;
+	rootHD r;
+	r.hd = 0;
+	r.node = root;
+	q.push(r);
+	mymap.insert(pair<int, Tree*>(hd, root));
+	while (!q.empty()) {
+		rootHD front = q.front();
+		q.pop();
+
+		if (front.node->left != NULL) {
+			rootHD temp;
+			temp.hd = front.hd - 1;
+			temp.node = front.node->left;
+			cout << "temp hd " << temp.hd << endl;
+			auto itr = mymap.find(temp.hd);
+			if (itr == mymap.end()) {
+				cout << temp.hd << " " << temp.node->data << " " << endl;
+				mymap.insert(pair<int, Tree*>(temp.hd, front.node->left));
+			}
+			q.push(temp);
+
+			// mymap[hd-1] = front->left->data;
+		}
+		if (front.node->right != NULL) {
+			rootHD temp1;
+			temp1.hd = front.hd + 1;
+			temp1.node = front.node->right;
+			cout << "temp1 hd " << temp1.hd << endl;
+			auto itr = mymap.find(temp1.hd);
+			auto itr2 = mymap.find(2);
+
+			if (itr == mymap.end()) {
+				cout << temp1.hd << " " << temp1.node->data << " " << endl;
+				mymap.insert(pair<int, Tree*>(temp1.hd, front.node->right));
+			}
+			q.push(temp1);
+		}
+	}
+	cout << "finalAns = ";
+	for (auto i = mymap.begin(); i != mymap.end(); ++i) {
+		cout << i->second->data << " ";
+	}
+
 }
 
 int main() {
 	Tree*root = NULL;
 	// root = buildTree();
 	buildLevelTree(root);
-	printByLevelQueue(root);
-	cout << endl;
-	verticalPrint(root);
+	// printByLevelQueue(root);
+	printByLevel(root);
+	// cout << endl;
+	// verticalPrint(root);
+	// topLevel(root);
 	// printByLevel(root);
 	// preOrder(root);
 	// inOrder(root);
