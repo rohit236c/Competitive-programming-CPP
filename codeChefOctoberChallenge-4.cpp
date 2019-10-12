@@ -31,44 +31,21 @@ void factorAndCount(int64 x, int64 index, multimap<int64, pair<int64, int64>>&ma
 		if (x % i == 0) {
 			std::multimap<int64, pair<int64, int64>>::iterator it = map.find(i);
 			if (it != map.end()) {
-				
+
 				if (it->second.first > index) {
 					it->second.second++;
 				}
-				// if (map.count(i) > 1) {
-				// 	int64 c = map.count(i);
-				// 	while (c--) {
-				// 		std::multimap<int64, pair<int64, int64>>::iterator it3 = map.find(i);
-				// 		if (it3 != map.end() && it != it3 ) {
-				// 			if (it3->second.first > index) {
-				// 				it3->second.second++;
-				// 			}
-				// 		}
-				// 	}
-
-				// }
+				
 			}
 			if (x / i != i) {
 				int64 n = x / i;
 				std::multimap<int64, pair<int64, int64>>::iterator it2 = map.find(n);
-				cout<<" i n "<<x<<" "<<it2->second.first<<" "<<it2->second.second<<endl;
+				cout << " i n " << x << " " << it2->second.first << " " << it2->second.second << endl;
 				if (it2 != map.end()) {
 					// cout<<" i n "<<x<<" "<<it->second.first<<endl;
 					if (it2->second.first > index) {
 						it2->second.second++;
 					}
-				// 	if (map.count(n) > 1) {
-				// 		int64 k = map.count(n);
-				// 		while (k--) {
-				// 			std::multimap<int64, pair<int64, int64>>::iterator it4 = map.find(n);
-				// 			if (it4 != map.end() && it2 != it4 ) {
-				// 				if (it4->second.first > index) {
-				// 					it4->second.second++;
-				// 				}
-				// 			}
-				// 		}
-
-				// 	}
 				}
 			}
 		}
@@ -87,7 +64,7 @@ void util() {
 		cin >> Arr[i];
 		pair<int64, int64>s(i, 0);
 		std::multimap<int64, pair<int64, int64>>::iterator it2 = map.find(Arr[i]);
-		if(it2 != map.end()){
+		if (it2 != map.end()) {
 			map.erase(it2);
 		}
 		map.insert(pair<int64, pair<int64, int64>>(Arr[i], s));
@@ -101,10 +78,10 @@ void util() {
 	}
 
 	cout << maxNum;
-	cout<<endl;
-	for (auto x : map) {
-		cout<<x.first<<" "<<x.second.second<<endl;
-	}
+	// cout << endl;
+	// for (auto x : map) {
+	// 	cout << x.first << " " << x.second.second << endl;
+	// }
 
 
 }
