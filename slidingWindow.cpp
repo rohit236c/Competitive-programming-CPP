@@ -17,25 +17,28 @@ int main() {
 	cin >> k;
 	deque<int>d(k);
 	int i;
-	for(i = 0; i < k; i++) {
-		while(!d.empty() && arr[i]>arr[d.front()]){
+	for (i = 0; i < k; i++) {
+		while (!d.empty() && arr[i] > arr[d.backs()]) {
 			d.pop_back();
 		}
 		d.push_back(i);
 	}
-	for(;i<n;i++){
-		cout<<arr[d.front()]<<" ";
+	for (; i < n; i++) {
+		cout << arr[d.front()] << " ";
 
-		while(!d.empty() && i-k >= d.front()){
+		//remove the elements that are not part of window...
+		while (!d.empty() && i - k >= d.front()) {
 			d.pop_front();
 		}
-		while(!d.empty() && arr[i]>arr[d.front()]){
+		// remove the elements that are not useful in the window....
+		while (!d.empty() && arr[i] > arr[d.front()]) {
 			d.pop_back();
 		}
+		//add the new elements...
 		d.push_back(i);
 	}
 
-	cout<<arr[d.front()];
+	cout << arr[d.front()];
 
 	return 0;
 }
