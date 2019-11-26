@@ -18,7 +18,7 @@ int main() {
 	deque<int>d(k);
 	int i;
 	for (i = 0; i < k; i++) {
-		while (!d.empty() && arr[i] > arr[d.backs()]) {
+		while (!d.empty() && arr[i] > arr[d.back()]) {
 			d.pop_back();
 		}
 		d.push_back(i);
